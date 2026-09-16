@@ -9,7 +9,7 @@
 #define MyAppPublisher "PhoneMic"
 
 [Setup]
-AppId={{B6F4B6B0-6E1B-4C77-9B36-PHONEMIC0001}
+AppId={{B6F4B6B0-6E1B-4C77-9B36-A1D2E3F40001}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
@@ -25,10 +25,8 @@ PrivilegesRequired=admin
 WizardStyle=modern
 
 [Files]
-; The compiled receiver (built by PyInstaller in CI before this runs)
-Source: "build\receiver.exe"; DestDir: "{app}"; Flags: ignoreversion
-; The VB-Cable driver installer, downloaded during CI build
-Source: "build\VBCABLE_Setup_x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "installer_files\receiver.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "installer_files\VBCABLE_Setup_x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [Icons]
 Name: "{group}\PhoneMic Receiver"; Filename: "{app}\receiver.exe"
@@ -39,9 +37,7 @@ Name: "{userstartup}\PhoneMic Receiver"; Filename: "{app}\receiver.exe"; Tasks: 
 Name: "autostart"; Description: "Start PhoneMic Receiver automatically when Windows starts"; GroupDescription: "Startup:"
 
 [Run]
-; Silently install the VB-Cable virtual audio driver first
 Filename: "{tmp}\VBCABLE_Setup_x64.exe"; Parameters: "-i -h"; StatusMsg: "Installing virtual microphone driver..."; Flags: waituntilterminated
-; Then launch the receiver right after setup finishes
 Filename: "{app}\receiver.exe"; Description: "Launch PhoneMic Receiver now"; Flags: postinstall nowait skipifsilent
 
 [UninstallRun]
